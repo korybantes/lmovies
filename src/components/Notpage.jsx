@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../../public/404.jpg";
+import img from "../../public/404.png";
 import { Link, Navigate } from "react-router-dom";
 const Notpage = () => {
   return (
