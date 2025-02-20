@@ -62,11 +62,11 @@ export const Header = ({ data }) => {
 
         {/* Trailer Button */}
         <Link
-          to={`/${data?.media_type}/details/${data?.id}/trailer`}
+          to={`/${data?.media_type}/details/${data?.id}`}
           className="mt-6 px-8 py-4 flex items-center space-x-3 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-amber-500 hover:to-yellow-400 rounded-full transition-all duration-500 hover:scale-105 shadow-glow"
         >
           <i className="ri-play-circle-fill text-2xl text-black animate-ping-slow" />
-          <span className="text-lg font-bold text-black">Watch Experience</span>
+          <span className="text-lg font-bold text-black">Watch Now!</span>
           <i className="ri-arrow-right-s-line text-xl text-black ml-2 transition-transform duration-300 group-hover:translate-x-1" />
         </Link>
       </div>

@@ -7,63 +7,64 @@ import HorizontalCards from "./templates/HorizontalCards";
 import Loading from "./Loading";
 import { Dropdown } from "./templates/Dropdown";
 
-
 export const Home = () => {
-  document.title = "THE ULTIMATE | Homepage";
-  const [wallpaper, setwallpaper] = useState(null);
-  const [trending, settrendin] = useState(null);
-  const [menuset, setmenuset] = useState(false)
-  const [category, setcategory] = useState("all");
+  document.title = "l-movies | Homepage";
+  const [wallpaper, setWallpaper] = useState(null);
+  const [trending, setTrending] = useState(null);
+  const [menuset, setMenuset] = useState(false);
+  const [category, setCategory] = useState("all");
 
   const GetHeaderWallpaper = async () => {
     try {
       const { data } = await axios.get(`/trending/all/day`);
-      let randomdata =
+      const randomData =
         data.results[Math.floor(Math.random() * data.results.length)];
-      setwallpaper(randomdata);
+      setWallpaper(randomData);
     } catch (error) {
-      console.log("error", error);
+      console.error("Error fetching wallpaper:", error);
     }
   };
 
   const GetTrending = async () => {
     try {
       const { data } = await axios.get(`/trending/${category}/day`);
-      settrendin(data.results);
+      setTrending(data.results);
     } catch (error) {
-      console.log("error", error);
+      console.error("Error fetching trending data:", error);
     }
   };
 
-  function menuhendlaer() {
-    setmenuset(!menuset)
-    
-  }
+  const menuhandler = () => {
+    setMenuset((prev) => !prev);
+  };
 
   useEffect(() => {
     GetTrending();
-    !wallpaper && GetHeaderWallpaper();
-    
-  }, [category]);
+  }, [category]); // Only runs when category changes
+
+  useEffect(() => {
+    if (!wallpaper) {
+      GetHeaderWallpaper();
+    }
+  }, [wallpaper]); // Fetch wallpaper only once
 
   return wallpaper && trending ? (
     <>
-      <Sidenav menuset={menuset} />
-      <div className="w-[80%] sm:w-full min-h-full overflow-auto overflow-x-hidden ">
-        
-        <Topnav menuhendlaer={menuhendlaer}  menuset={menuset} />
+      {/* Ensure menuhandler is passed to Sidenav */}
+      <Sidenav menuset={menuset} menuhendlaer={menuhandler} />
+      <div className="w-[80%] sm:w-full min-h-full overflow-auto overflow-x-hidden">
+        <Topnav menuhendlaer={menuhandler} menuset={menuset} />
         <Header data={wallpaper} />
 
-        <div className=" flex justify-between items-center p-3 ">
-          <h1 className="text-2xl  font-semibold  text-zinc-300">Trending</h1>
+        <div className="flex justify-between items-center p-3">
+          <h1 className="text-2xl font-semibold text-zinc-300">Trending</h1>
           <Dropdown
             title="Filter"
             options={["tv", "movie", "all"]}
-            func={(e) => setcategory(e.target.value)}
+            func={(e) => setCategory(e.target.value)}
           />
         </div>
         <HorizontalCards data={trending} />
-        
       </div>
     </>
   ) : (

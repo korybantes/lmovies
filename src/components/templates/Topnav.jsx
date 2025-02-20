@@ -37,9 +37,10 @@ export const Topnav = ({ menuhendlaer, menuset }) => {
   return (
     <nav className="sticky top-0 z-[90] bg-gradient-to-r from-gray-900/90 to-gray-800/90 backdrop-blur-xl">
       <div className="flex items-center justify-between px-6 py-4 sm:px-8">
-        {/* Dynamic Menu Button with Hover Animation */}
+        {/* Menu Button */}
         <button
           onClick={menuhendlaer}
+          aria-label="Toggle menu"
           className={`${
             pathname === "/" ? "block" : "hidden"
           } group p-2 hover:bg-gray-700/30 rounded-xl transition-all duration-300`}
@@ -51,12 +52,21 @@ export const Topnav = ({ menuhendlaer, menuset }) => {
           )}
         </button>
 
-        {/* Enhanced Search Container */}
+        {/* Navigation Menu */}
+        <div className="hidden sm:flex space-x-6 text-lg text-amber-400">
+          <Link to="/" className="hover:text-amber-100 transition-all">Home</Link>
+          <Link to="/trending" className="hover:text-amber-100 transition-all">Trending</Link>
+          <Link to="/movie" className="hover:text-amber-100 transition-all">Movies</Link>
+          <Link to="/tv" className="hover:text-amber-100 transition-all">TV Shows</Link>
+        </div>
+
+        {/* Search Container (on the right) */}
         <div className="relative flex-1 max-w-2xl ml-4">
           <div className="relative group">
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              aria-label="Search"
               className="w-full px-6 py-4 text-lg bg-gray-800/50 backdrop-blur-sm border-2 border-transparent rounded-2xl outline-none 
                         focus:border-amber-400/30 focus:bg-gray-900/80 transition-all duration-500
                         placeholder:text-gray-400 text-gray-100 shadow-xl"
@@ -65,13 +75,13 @@ export const Topnav = ({ menuhendlaer, menuset }) => {
             />
             <RiSearchLine className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 text-amber-400/80" />
             
-            {/* Animated Loading Indicator */}
+            {/* Loading Indicator */}
             {isSearching && (
               <RiLoader4Line className="absolute right-14 top-1/2 -translate-y-1/2 w-6 h-6 text-amber-400 animate-spin-slow" />
             )}
           </div>
 
-          {/* Glassmorphic Search Results Dropdown */}
+          {/* Search Results Dropdown */}
           {query && (
             <div className="absolute mt-4 w-full bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden 
               animate-fade-in transition-all duration-300 origin-top">
@@ -82,7 +92,6 @@ export const Topnav = ({ menuhendlaer, menuset }) => {
                     to={`/${result.media_type}/details/${result.id}`}
                     className="flex items-center p-4 hover:bg-gray-800/50 transition-all duration-300 group"
                   >
-                    {/* Image with Shimmer Effect */}
                     <div className="relative flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden">
                       <img
                         src={

@@ -5,17 +5,15 @@ import logo from '../../../public/logo2.jpg';
 export const Sidenav = ({ menuset, menuhendlaer }) => {
   const sidenavRef = useRef(null);
 
-  const handleClickOutside = (event) => {
-    if (sidenavRef.current && !sidenavRef.current.contains(event.target)) {
-      menuhendlaer();
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidenavRef.current && !sidenavRef.current.contains(event.target)) {
+        menuhendlaer(); // Closes the sidebar when clicking outside
+      }
+    };
+
     if (menuset) {
       document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
@@ -26,14 +24,15 @@ export const Sidenav = ({ menuset, menuhendlaer }) => {
   return (
     <div
       ref={sidenavRef}
-      className={`fixed top-0 z-[100] h-screen overflow-y-auto transition-all duration-500 w-[280px] bg-gradient-to-br from-gray-900 via-[#0f0f0f] to-gray-900 ${
-        menuset ? 'left-0' : '-left-full'
+      className={`fixed top-0 z-[100] h-screen overflow-y-auto transition-all duration-500 w-[280px] bg-gradient-to-br from-gray-900 via-[#0f0f0f] to-gray-900 transform ${
+        menuset ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
       <div className="flex flex-col h-full p-6 relative">
         {/* Close Button */}
         <button
           onClick={menuhendlaer}
+          aria-label="Close sidebar"
           className="absolute top-4 right-4 p-2 text-2xl text-yellow-400 hover:text-amber-200 transition-colors duration-300"
         >
           &times;
@@ -68,6 +67,7 @@ export const Sidenav = ({ menuset, menuhendlaer }) => {
             <Link
               key={item.to}
               to={item.to}
+              aria-label={item.text}
               className="flex items-center p-4 space-x-4 rounded-xl hover:bg-gray-800/60 hover:shadow-lg transition-all duration-300 group hover:pl-6"
               style={{ transitionDelay: `${index * 50}ms` }}
             >
@@ -90,6 +90,7 @@ export const Sidenav = ({ menuset, menuhendlaer }) => {
               href="https://www.github.com/korybantes"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="GitHub"
               className="p-2 rounded-full hover:bg-gray-800 transition-all duration-300 hover:rotate-12"
             >
               <i className="ri-github-fill text-xl text-gray-400 hover:text-yellow-400 transition-colors duration-300" />

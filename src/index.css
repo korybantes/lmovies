@@ -2,29 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Scrollbar Styling */
+* {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgb(253, 208, 6) #27272a; /* Firefox */
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(253, 208, 6);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(255, 243, 68);;
+}
+
+/* Hide scrollbar on mobile */
 @media only screen and (max-width: 600px) {
   ::-webkit-scrollbar {
     display: none;
   }
 }
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #8d397f;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: #681043;
-}
-body{
-  scroll-behavior: smooth;
-}
-*{
+
+/* Smooth Scrolling */
+body {
   scroll-behavior: smooth;
 }
 
+/* Select Dropdown Styling */
 .select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -35,25 +45,24 @@ body{
   border: 0 !important;
   background: #27272a;
   background-image: none;
-  padding: em;
-  color: #000000;
-  cursor:rgb(0, 0, 0)nter;
-  font-size:1vw;
+  padding: 1em;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: clamp(0.8rem, 1vw, 1rem);
   font-family: "Open Sans", sans-serif;
-}
-.select::-ms-expand {
-  display: none;
-}
-.select {
   position: relative;
   display: flex;
   width: 10vw;
   height: 3vw;
   line-height: 3;
-  background: #27272a;
   overflow: hidden;
   border-radius: 5px;
 }
+
+.select::-ms-expand {
+  display: none;
+}
+
 .select::after {
   content: "\25BC";
   position: absolute;
@@ -65,18 +74,21 @@ body{
   pointer-events: none;
   transition: 0.25s all ease;
 }
-.select:hover::after{
-    color:#6556cd
-}
-@media only screen and (max-width: 600px) {
- .select{
-  width: 15vw;
-  height: 5vw;
-  border-radius: 3px;
-  font-size:2vw ;
- }
- .sidenav {
-  transition: transform 0.3s ease;
+
+.select:hover::after {
+  color: #fffb00;
 }
 
+/* Mobile Styles */
+@media only screen and (max-width: 600px) {
+  .select {
+    width: 120px;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 3px;
+  }
+}
+
+html, body {
+  overflow-x: hidden;
 }

@@ -1,12 +1,12 @@
-import axios from "../utils/axios";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate } from "react-router-dom";
-import Loading from "./Loading";
-import { Topnav } from "./templates/Topnav";
+import axios from "../utils/axios";
+import { RiLoader4Line } from "react-icons/ri";
 import { Cards } from "./templates/Cards";
 import { Dropdown } from "./templates/Dropdown";
-import { RiArrowLeftLine, RiLoader4Line } from "react-icons/ri";
+import { Topnav } from "./templates/Topnav";
+import { RiArrowLeftLine } from "react-icons/ri";
 
 export const Movie = () => {
   const navigate = useNavigate();
@@ -16,8 +16,6 @@ export const Movie = () => {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  document.title = `l-movies | Movies ${category.toUpperCase()}`;
 
   const GetMovie = async () => {
     try {
@@ -111,11 +109,8 @@ export const Movie = () => {
           dataLength={movie.length}
           next={GetMovie}
           hasMore={hasMore}
-          loader={
-            <div className="flex justify-center py-8">
-              <RiLoader4Line className="animate-spin text-4xl text-amber-400" />
-            </div>
-          }
+          loader={<div className="flex justify-center py-8"><RiLoader4Line className="animate-spin text-4xl text-amber-400" /></div>}
+          scrollThreshold={0.95} // optional, triggers early
           className="px-6 py-8"
         >
           <Cards data={movie} title="movie" />

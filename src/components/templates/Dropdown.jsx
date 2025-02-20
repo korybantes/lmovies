@@ -17,15 +17,21 @@ export const Dropdown = ({ title, options, func }) => {
             {title}
           </option>
           {/* Dynamic Options */}
-          {options.map((o, i) => (
-            <option
-              key={i}
-              value={o}
-              className="bg-surface-500 text-primary-100 hover:bg-primary-500 hover:text-surface-900"
-            >
-              {o.toUpperCase()}
-            </option>
-          ))}
+          {options.map((o, i) => {
+            // Handling string and object options
+            const label = typeof o === "object" ? o.label : o;
+            const value = typeof o === "object" ? o.value : o;
+
+            return (
+              <option
+                key={i}
+                value={value}
+                className="bg-surface-500 text-primary-100 hover:bg-primary-500 hover:text-surface-900"
+              >
+                {label.toString().toUpperCase()}
+              </option>
+            );
+          })}
         </select>
       </div>
 
