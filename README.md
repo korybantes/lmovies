@@ -4,7 +4,8 @@ All trademarks and copyrights belong to their respective owners. All media and i
 
 Live link : https://lmovies-two.vercel.app
 
-<img width="959" alt="lmovies" src="https://github.com/patelharsh80874/THE-ULTIMATE/assets/110234600/4cfcd40e-4540-461f-b99c-160ab49e1f28">
+<img width="959" alt="the ultimate" src="https://github.com/korybantes/lmovies/blob/main/assets/lmovies.png?raw=true">
+<img width="959" alt="the ultimate" src="https://github.com/korybantes/lmovies/blob/main/assets/lmovies-ss2.png?raw=true">
 
 
 
