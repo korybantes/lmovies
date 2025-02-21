@@ -3,7 +3,7 @@ import img from "../../public/404.png";
 import { Link, Navigate } from "react-router-dom";
 const Notpage = () => {
   return (
-    <div className="flex flex-col gap-2 items-center justify-center w-full h-screen bg-black text-white">
+    <div className="flex flex-col gap-2 items-center justify-center w-full h-80vh bg-black text-white">
       <Link
         to={-1}
         // onClick={() => Navigate(-1)}

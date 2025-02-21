@@ -8,10 +8,12 @@ import HorizontalCards from "./templates/HorizontalCards";
 import Loading from "./Loading";
 import { Dropdown } from "./templates/Dropdown";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { RiLoader4Line } from "react-icons/ri";
+import { RiArrowLeftLine } from "react-icons/ri";
 
 export const Trending = () => {
   document.title = "l-movies | Trending";
-
+  const navigate = useNavigate();
   const [category, setCategory] = useState("movie");
   const [year, setYear] = useState(new Date().getFullYear());
   const [genre, setGenre] = useState("");
@@ -22,7 +24,6 @@ export const Trending = () => {
   const [wallpaper, setWallpaper] = useState(null);
   const [genres, setGenres] = useState([]);
 
-  // ✅ Made by Korybantes - Fetch genres
   const GetGenres = async () => {
     try {
       const { data } = await axios.get(`/genre/${category}/list`);
@@ -32,25 +33,20 @@ export const Trending = () => {
     }
   };
 
-  // ✅ Made by Korybantes - Fetch trending with infinite scrolling
   const GetTrending = async () => {
     try {
       const { data } = await axios.get(
         `/discover/${category}?year=${year}&with_genres=${genre}&page=${page}`
       );
-
-      if (data.results.length > 0) {
-        setTrending((prevState) => [...prevState, ...data.results]);
-        setPage((prevPage) => prevPage + 1);
-      } else {
+      data.results?.length ? 
+        setTrending(prev => [...prev, ...data.results]) : 
         setHasMore(false);
-      }
+      setPage(prev => prev + 1);
     } catch (error) {
       console.error("Error fetching trending data:", error);
     }
   };
 
-  // ✅ Made by Korybantes - Fetch wallpaper
   const GetHeaderWallpaper = async () => {
     try {
       const { data } = await axios.get(`/trending/all/day`);
@@ -69,9 +65,7 @@ export const Trending = () => {
   }, [category, year, genre]);
 
   useEffect(() => {
-    if (!wallpaper) {
-      GetHeaderWallpaper();
-    }
+    !wallpaper && GetHeaderWallpaper();
   }, [wallpaper]);
 
   useEffect(() => {
@@ -79,53 +73,49 @@ export const Trending = () => {
   }, [category]);
 
   return (
-    <div className="flex">
-      {/* ✅ Sidenav should always be visible when menuset is true */}
-      <Sidenav menuset={menuset} menuhendlaer={() => setMenuset(!menuset)} />
-      <div className="w-[80%] sm:w-full min-h-full overflow-auto overflow-x-hidden">
-        <Topnav menuhendlaer={() => setMenuset(!menuset)} menuset={menuset} />
-        <Header data={wallpaper} />
-        
-        <div className="flex justify-between items-center p-3">
-          <h1 className="text-2xl font-semibold text-zinc-300">Trending</h1>
-          <div className="flex gap-5">
-            <Dropdown
-              title="Year"
-              options={Array.from(
-                { length: 50 },
-                (_, i) => new Date().getFullYear() - i
-              )}
-              func={(e) => setYear(e.target.value)}
-            />
-            <Dropdown
-              title="Category"
-              options={["movie", "tv"]}
-              func={(e) => setCategory(e.target.value)}
-            />
-            <Dropdown
-              title="Genre"
-              options={genres.map((g) => ({ label: g.name, value: g.id }))}
-              func={(e) => setGenre(e.target.value)}
-            />
+    <div className="min-h-screen bg-gray-900 flex flex-col">
+      {/* Fixed Header */}
+      <div className="fixed w-full top-0 z-50 bg-gray-900/90 backdrop-blur-xl border-b border-gray-800">
+        <div className="px-4 sm:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 hover:bg-gray-800/50 rounded-full transition-colors"
+            >
+              <RiArrowLeftLine className="text-2xl text-amber-400" />
+            </button>
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+              TV Shows
+            </h1>
           </div>
+          
+          <Dropdown
+            title="Category"
+            options={["popular", "top_rated", "on_the_air", "airing_today"]}
+            func={(e) => setCategory(e.target.value)}
+            className="bg-gray-800/50 text-amber-400"
+          />
         </div>
-        
-        {/* ✅ Scrollable Div for Infinite Scroll */}
-        <div
-          id="scrollableDiv"
-          style={{ height: "80vh", overflowY: "auto", display: "flex", flexDirection: "column" }}
+      </div>
+
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto pt-20 pb-12">
+        <InfiniteScroll
+          dataLength={tv.length}
+          next={GetTv}
+          hasMore={hasMore}
+          loader={
+            <div className="flex justify-center py-8">
+              <RiLoader4Line className="animate-spin text-4xl text-amber-400" />
+            </div>
+          }
+          className="px-4 sm:px-8"
         >
-          <InfiniteScroll
-            dataLength={trending.length}
-            next={GetTrending}
-            hasMore={hasMore}
-            loader={<h1 className="text-center text-zinc-300">Loading...</h1>}
-            scrollableTarget="scrollableDiv"
-          >
-            <HorizontalCards data={trending} />
-          </InfiniteScroll>
-        </div>
+          <Cards data={tv} title="tv" />
+        </InfiniteScroll>
       </div>
     </div>
   );
 };
+
+// Made by Korybantes/ github.com/korybantes

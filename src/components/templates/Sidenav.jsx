@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../../public/logo2.jpg';
+import logo from '../../../public/logo2.png';
 
 export const Sidenav = ({ menuset, menuhendlaer }) => {
   const sidenavRef = useRef(null);
